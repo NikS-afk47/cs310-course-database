@@ -27,10 +27,23 @@ public class SectionDAO {
             
             Connection conn = daoFactory.getConnection();
             
+            System.out.println("DATABASE: " + conn.getCatalog());
+            System.out.println("USER: " + conn.getMetaData().getUserName());
+            System.out.println("VALID: " + conn.isValid(0));
+            
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                ps = conn.prepareStatement(QUERY_FIND);
+
+                ps.setInt(1, termid);
+                ps.setString(2, subjectid);
+                ps.setString(3, num);
                 
+                rs = ps.executeQuery();
+                
+                System.out.println("HAS ROW: " + rs.isBeforeFirst());
+                
+                result = DAOUtility.getResultSetAsJson(rs);
             }
             
         }
